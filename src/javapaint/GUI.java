@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javafx.scene.input.MouseDragEvent;
 import javax.swing.JColorChooser;
 import javax.swing.JPanel;
@@ -30,6 +31,7 @@ public class GUI extends javax.swing.JFrame {
     Graphics g;
     Color c;
     String tipo;
+    ArrayList<Desenho> desenhus = new ArrayList();
     
     public GUI() {
         initComponents();
@@ -54,7 +56,7 @@ public class GUI extends javax.swing.JFrame {
             public void mousePressed(MouseEvent e)
             {
                 mouseX = e.getX();
-                mouseY = e.getY() - 47;
+                mouseY = e.getY();
                 mouseDragged = false;
                 if (tipo == "free hand")
                     new FreeHand(mouseX, mouseY, g, c);                
@@ -63,28 +65,48 @@ public class GUI extends javax.swing.JFrame {
             
             public void mouseDragged(MouseEvent e)
             {
-                mouseX_dragged = e.getX() - 2;
-                mouseY_dragged = e.getY() - 46;
+                mouseX_dragged = e.getX();
+                mouseY_dragged = e.getY();
                 mouseDragged = true;
                 
-                if (tipo == "free hand")
-                    new FreeHand(mouseX_dragged, mouseY_dragged, g, c);
-                else if(tipo == "borracha")
-                    new Ereaser(mouseX_dragged, mouseY_dragged, panel);
+                if (tipo == "Linha Livre")
+                {
+                    Desenho livre = new FreeHand(mouseX_dragged, mouseY_dragged, g, c);
+                    livre.Desenha();
+                    desenhus.add(livre);
+                }
+                else if(tipo == "Borracha")
+                {
+                    Desenho borracha = new Ereaser(mouseX_dragged, mouseY_dragged, panel);
+                    borracha.Desenha();
+                    desenhus.add(borracha);
+                }
             }
             
             public void mouseReleased(MouseEvent e)
             {
                 mouseX_released = e.getX();
-                mouseY_released = e.getY() - 47;
+                mouseY_released = e.getY();
                 if(mouseDragged)
                 {
-                    if(tipo == "reta")
-                        new Line(mouseX, mouseY, mouseX_released, mouseY_released, g, c);
-                    else if(tipo == "retangulo")
-                        new Rectangle(mouseX, mouseY, mouseX_released, mouseY_released, g, c);
-                    else if(tipo == "elipse")
-                        new Elipse(mouseX, mouseY, mouseX_dragged, mouseY_dragged, g, c);
+                    if(tipo == "Linha Reta")
+                    {
+                        Desenho linha = new Line(mouseX, mouseY, mouseX_released, mouseY_released, g, c);
+                        linha.Desenha();
+                        desenhus.add(linha);
+                    }
+                    else if(tipo == "Retangulo")
+                    {
+                       Desenho retangulo = new Rectangle(mouseX, mouseY, mouseX_released, mouseY_released, g, c);
+                       retangulo.Desenha();
+                       desenhus.add(retangulo);
+                    }
+                    else if(tipo == "Circulo")
+                    {
+                        Desenho circulo = new Elipse(mouseX, mouseY, mouseX_dragged, mouseY_dragged, g, c);
+                        circulo.Desenha();
+                        desenhus.add(circulo);
+                    }
                     else
                         System.out.println("Nenhuma opção selecionada");
                     mouseDragged = false;
@@ -100,127 +122,77 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        linhaMenu = new javax.swing.JMenuItem();
-        retaMenu = new javax.swing.JMenuItem();
-        recMenu = new javax.swing.JMenuItem();
-        circMenu = new javax.swing.JMenuItem();
-        borrachaMenu = new javax.swing.JMenuItem();
-        colorM = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jComboBox2 = new javax.swing.JComboBox();
+        jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("Ferramentas");
-
-        linhaMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
-        linhaMenu.setText("Linha Livre");
-        linhaMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                linhaMenuActionPerformed(evt);
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ferramentas", "Linha Reta", "Linha Livre", "Retangulo", "Circulo", "Borracha" }));
+        jComboBox2.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBox2PopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
         });
-        jMenu1.add(linhaMenu);
-
-        retaMenu.setText("Reta");
-        retaMenu.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                retaMenuActionPerformed(evt);
+                jComboBox2ActionPerformed(evt);
             }
         });
-        jMenu1.add(retaMenu);
 
-        recMenu.setText("Retangulo");
-        recMenu.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Editar", "Cor", "Limpar Tela" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                recMenuActionPerformed(evt);
+                jComboBox1ActionPerformed(evt);
             }
         });
-        jMenu1.add(recMenu);
-
-        circMenu.setText("Círculo");
-        circMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                circMenuActionPerformed(evt);
-            }
-        });
-        jMenu1.add(circMenu);
-
-        borrachaMenu.setText("Borracha");
-        borrachaMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                borrachaMenuActionPerformed(evt);
-            }
-        });
-        jMenu1.add(borrachaMenu);
-
-        jMenuBar1.add(jMenu1);
-
-        colorM.setText("Editar");
-
-        jMenuItem1.setText("Cor");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        colorM.add(jMenuItem1);
-
-        jMenuItem2.setText("Limpar tela");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        colorM.add(jMenuItem2);
-
-        jMenuBar1.add(colorM);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 362, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 574, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void linhaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linhaMenuActionPerformed
-        tipo = "free hand";
-    }//GEN-LAST:event_linhaMenuActionPerformed
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        
+        if ("Cor".equals((String) jComboBox1.getSelectedItem()))
+        {
+            c = JColorChooser.showDialog(rootPane, null, Color.BLACK);
+        }
+        else if("Limpar Tela".equals((String) jComboBox1.getSelectedItem()))
+        {
+            repaint();
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        c = JColorChooser.showDialog(rootPane, null, Color.BLACK);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        tipo = (String) jComboBox2.getSelectedItem();
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        panel.repaint();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void retaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retaMenuActionPerformed
-        tipo = "reta";
-    }//GEN-LAST:event_retaMenuActionPerformed
-
-    private void recMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recMenuActionPerformed
-        tipo = "retangulo";
-    }//GEN-LAST:event_recMenuActionPerformed
-
-    private void circMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circMenuActionPerformed
-        tipo = "elipse";
-    }//GEN-LAST:event_circMenuActionPerformed
-
-    private void borrachaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrachaMenuActionPerformed
-        tipo = "borracha";
-    }//GEN-LAST:event_borrachaMenuActionPerformed
+    private void jComboBox2PopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBox2PopupMenuWillBecomeInvisible
+        repaint();
+        for(int i = 0; i < desenhus.size(); i++)
+            desenhus.get(i).Desenha();
+    }//GEN-LAST:event_jComboBox2PopupMenuWillBecomeInvisible
 
     /**
      * @param args the command line arguments
@@ -258,15 +230,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem borrachaMenu;
-    private javax.swing.JMenuItem circMenu;
-    private javax.swing.JMenu colorM;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem linhaMenu;
-    private javax.swing.JMenuItem recMenu;
-    private javax.swing.JMenuItem retaMenu;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     // End of variables declaration//GEN-END:variables
 }

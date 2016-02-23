@@ -13,14 +13,27 @@ import javax.swing.JPanel;
  *
  * @author pedrecal
  */
-public class Rectangle 
+public class Rectangle extends Desenho
 {
+    int x0;
+    int y0;
+    int x1;
+    int y1;
+    Graphics t;
+    
     public Rectangle(int x0, int y0, int x1, int y1, Graphics t, Color c)
     {
-        
-        
-        
-            int x, y;
+        this.t = t;
+        this.t.setColor(c);
+        this.x0 = x0;
+        this.y0 = y0;
+        this.x1 = x1;
+        this.y1 = y1;
+    }
+    
+    public void Desenha()
+    {
+        int x, y;
             int w, h;
             
             if(x0 > x1)
@@ -43,7 +56,7 @@ public class Rectangle
                 y = y0;
                 h = y1 - y0;
             }
-            t.setColor(c);
             t.drawRect(x, y, w, h);
     }
+    
 }

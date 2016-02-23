@@ -13,13 +13,26 @@ import javax.swing.JPanel;
  *
  * @author pedrecal
  */
-public class Elipse 
+public class Elipse extends Desenho
 {
+    int x0;
+    int y0;
+    int x1;
+    int y1;
+    Graphics t;
+    
     public Elipse(int x0, int y0, int x1, int y1, Graphics t, Color c)
     {
-        
-        
-        
+        this.t = t;
+        this.t.setColor(c);
+        this.x0 = x0;
+        this.y0 = y0;
+        this.x1 = x1;
+        this.y1 = y1;
+    }
+    
+    public void Desenha()
+    {
             int x, y;
             int w, h;
             
@@ -43,7 +56,6 @@ public class Elipse
                 y = y0;
                 h = y1 - y0;
             }
-            t.setColor(c);
             t.drawOval(x, y, w, h);
     }
 }

@@ -13,15 +13,24 @@ import javax.swing.JPanel;
  *
  * @author pedrecal
  */
-public class FreeHand 
+public class FreeHand extends Desenho
 {
+    int x;
+    int y;
+    Graphics t;
+    
     public FreeHand(int x, int y, Graphics t, Color c)
     {
-        t.setColor(c);
-        
-        t.drawLine(x, y, x+1, y+1);
+        this.t = t;
+        this.t.setColor(c);
+        this.x = x;
+        this.y = y;
         System.out.println(x);
         System.out.println(y);
-        
+    }
+    
+    public void Desenha()
+    {
+        t.drawLine(x, y, x+1, y+1);
     }
 }

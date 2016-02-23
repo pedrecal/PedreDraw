@@ -12,9 +12,21 @@ import javax.swing.JPanel;
  *
  * @author pedrecal
  */
-public class Ereaser 
+public class Ereaser extends Desenho
 {
+    int x;
+    int y;
+    JPanel panel;
+    
     public Ereaser(int x, int y, JPanel panel)
+    {
+        this.panel = panel;
+        panel.repaint(x, y, 40, 40);
+        this.x = x;
+        this.y = y;
+    }
+    
+    public void Desenha()
     {
         panel.repaint(x, y, 40, 40);
     }
